@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Are you ready, Daddy? 💋</title>
+<style>
+  body {
+    background: #fbeeee;
+    font-family: 'Georgia', serif;
+    color: #5c3d3d;
+    margin: 0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 650px;
+    background: #ffe7e1;
+    border-radius: 20px;
+    padding: 2rem 3rem;
+    box-shadow: 0 8px 20px rgba(217, 146, 146, 0.4);
+  }
+  h1 {
+    color: #d46262;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  p.story-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    white-space: pre-line;
+  }
+  .task {
+    margin-bottom: 1rem;
+  }
+  button {
+    background: #d48181;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin: 0.3rem;
+  }
+  button:hover:not(:disabled) {
+    background: #b65757;
+  }
+  button:disabled {
+    background: #f0c2c2;
+    cursor: not-allowed;
+  }
+  .footer {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  .vault-link {
+    background: #d46262;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+    transition: background 0.3s ease;
+  }
+  .vault-link:hover {
+    background: #b14444;
+  }
+  #vaultContent {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    color: #8b2a2a;
+  }
+  #countdown {
+    margin-top: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #b14747;
+  }
+</style>
+</head>
+<body>
+
+<div class="container" id="choiceScreen">
+  <h1>Choose your fantasy 🔥</h1>
+  <p style="text-align:center; margin-bottom: 2rem;">
+    Would you rather have me take control, <br>or do you want to be the one in charge tonight?
+  </p>
+  <div style="text-align:center;">
+    <button onclick="startStory('youDominant')">I want you to be dominant 😈</button>
+    <button onclick="startStory('heDominant')">I want to be dominant 🔥</button>
+  </div>
+</div>
+
+<div class="container" id="storyContainer" style="display:none;">
+  <h1>Are you ready, Daddy? 💋</h1>
+  <p class="story-text" id="storyText"></p>
+
+  <div id="tasksContainer">
+
+    <div class="task" id="task1">
+      <p>Send me a sexy selfie to unlock what happens next.</p>
+      <button onclick="unlockNext(1)">I sent it 😈</button>
+    </div>
+
+    <div class="task" id="task2" style="display:none;">
+      <p>Now, send me a naughty voice note.</p>
+      <button onclick="unlockNext(2)">Sent it 🔥</button>
+    </div>
+
+    <div class="task" id="task3" style="display:none;">
+      <p>Tell me in 3 sentences what you want to do to me right now.</p>
+      <button onclick="unlockNext(3)">Done 💬</button>
+    </div>
+
+    <div class="task" id="task4" style="display:none;">
+      <p>Send a GIF or emoji that shows your mood perfectly.</p>
+      <button onclick="unlockNext(4)">Sent it 😘</button>
+    </div>
+
+    <div class="task" id="task5" style="display:none;">
+      <p>Tell me your favorite part of my body and why.</p>
+      <button onclick="unlockNext(5)">Told you 💖</button>
+    </div>
+
+    <div class="task" id="task6" style="display:none;">
+      <p>Reveal a secret fantasy you haven’t told me before.</p>
+      <button onclick="unlockNext(6)">Shared it 🔥</button>
+    </div>
+
+  </div>
+
+  <div class="footer" id="finalMessage" style="display:none;">
+    <p style="font-size:1.3rem; line-height:1.6;">
+      You’ve unlocked every secret, every desire... but the best gift is yet to come.<br>
+      When the 19th of September arrives, the Memory Vault will open — and I’ll be waiting to show you just how much you mean to me, in every way imaginable.
+    </p>
+
+    <button class="vault-link" id="vaultButton" onclick="openVault()">Open Your Birthday Vault 🎁</button>
+
+    <div id="countdown"></div>
+    <div id="vaultContent" style="display:none;"></div>
+  </div>
+</div>
+
+<script>
+  const storyText = document.getElementById('storyText');
+  const tasksContainer = document.getElementById('tasksContainer');
+  const finalMessage = document.getElementById('finalMessage');
+  const choiceScreen = document.getElementById('choiceScreen');
+  const storyContainer = document.getElementById('storyContainer');
+  const vaultButton = document.getElementById('vaultButton');
+  const countdown = document.getElementById('countdown');
+  const vaultContent = document.getElementById('vaultContent');
+
+  const stories = {
+    youDominant: [
+      `The moment he steps through the door after months apart, she fixes him with a smoldering look — lips curling into a mischievous smile, eyes dark with need. The air hums electric as she steps close, her voice low and commanding: "Get ready, Daddy... tonight, I’m taking control."`,
+      `She slides her hands slowly down his chest, feeling his heartbeat racing under her fingertips. "Tonight, you’re mine," she whispers, pulling him closer. His breath hitches as she traces a path to his lips, tasting the fire that’s been building for months apart.`,
+      `With a mischievous grin, she pushes him gently onto the couch, straddling him as her fingers tease the line of his jaw. “Show me how much you missed me, Daddy,” she purrs, eyes locked on his. His hands explore her curves hungrily, every touch electric.`,
+      `Her lips trail kisses down his neck, leaving a trail of heat and promise. “You’re going to beg for me before the night ends,” she teases, voice thick with desire. He groans, already undone by her touch and the intoxicating power she holds.`,
+      `She leans in close, breath warm against his ear. “Say my name,” she commands softly, her nails tracing lazy patterns on his chest. The room hums with tension, every second stretching deliciously as they lose themselves in the moment.`,
+      `Her eyes darken with hunger as she pulls him up, pressing him against the wall. “No distractions. Tonight, it’s just us.” The promise in her voice makes his pulse race faster, anticipation crackling between them like electricity.`,
+      `Finally, she smiles, lips just inches from his. “I’ve missed this, missed you. And I’m not letting go.” Their lips meet in a searing kiss, the world fading away until it’s only the two of them, burning brighter than ever.`
+    ],
+    heDominant: [
+      `He steps into the room, eyes sharp and full of command. Without a word, he pulls her close, his hands firm yet teasing. “Tonight, you’re mine,” he says low, his voice thick with promise.`,
+      `His touch trails over her skin, igniting sparks of heat wherever he lingers. She shivers under his gaze, knowing there’s no escape from his control tonight.`,
+      `He pushes her gently but firmly against the wall, his lips capturing hers in a hungry kiss. “You’ll do exactly as I say,” he murmurs, his breath hot against her ear.`,
+      `She feels the weight of his dominance, the delicious tension tightening between them as he guides every movement. “Beg for me,” he commands, voice rough with desire.`,
+      `Her heart races as he traces a slow path down her body, hands exploring curves that belong only to him tonight. “You’re all mine,” he repeats, voice unwavering.`,
+      `With a sly smile, he tightens his grip, making sure she feels the promise behind his words. “No distractions. Just you and me.” The world falls away as they lose themselves in the moment.`,
+      `Finally, he whispers, “I’ve waited so long for this.” Their lips meet in a fierce kiss, every touch speaking volumes of the desire that’s been building for months apart.`
+    ]
+  };
+
+  function startStory(choice) {
+    choiceScreen.style.display = 'none';
+    storyContainer.style.display = 'block';
+
+    let currentStep = 0;
+
+    storyText.textContent = stories[choice][currentStep];
+
+    // Show only task 1 initially
+    for(let i=1; i<=6; i++) {
+      document.getElementById('task'+i).style.display = (i === 1) ? 'block' : 'none';
+    }
+
+    finalMessage.style.display = 'none';
+
+    // On unlocking each task:
+    window.unlockNext = function(taskNumber) {
+      // Hide current task button
+      document.getElementById('task'+taskNumber).style.display = 'none';
+
+      // Advance story text
+      currentStep++;
+      if(currentStep < stories[choice].length) {
+        storyText.textContent = stories[choice][currentStep];
+      }
+
+      if(taskNumber < 6) {
+        // Show next task
+        document.getElementById('task'+(taskNumber+1)).style.display = 'block';
+      } else {
+        // Last task done: show final message + vault button
+        tasksContainer.style.display = 'none';
+        finalMessage.style.display = 'block';
+        checkVaultUnlock();
+      }
+    }
+  }
+
+  // Vault unlock logic
+  const vaultOpenDate = new Date('2025-09-19T00:00:00');
+
+  function checkVaultUnlock() {
+    const now = new Date();
+
+    if(now >= vaultOpenDate) {
+      countdown.style.display = 'none';
+      vaultButton.disabled = false;
+      vaultButton.textContent = "Open Your Birthday Vault 🎁";
+    } else {
+      vaultButton.disabled = true;
+      updateCountdown();
+      // Start countdown interval
+      setInterval(updateCountdown, 1000);
+    }
+  }
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = vaultOpenDate - now;
+
+    if(diff <= 0) {
+      countdown.style.display = 'none';
+      vaultButton.disabled = false;
+      vaultButton.textContent = "Open Your Birthday Vault 🎁";
+      return;
+    }
+
+    vaultButton.disabled = true;
+
+    let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    let minutes = Math.floor((diff / (1000 * 60)) % 60);
+    let seconds = Math.floor((diff / 1000) % 60);
+
+    countdown.style.display = 'block';
+    countdown.textContent = `Vault opens in ${days}d ${hours}h ${minutes}m ${seconds}s...`;
+  }
+
+  function openVault() {
+    // Show the secret paragraph
+    vaultContent.style.display = 'block';
+    vaultContent.textContent = `🔥🔥🔥
+
+My Dearest Love,
+
+Every moment we’ve been apart has only made the fire inside me grow stronger. Now, as you open this vault, know that all my deepest desires, my hottest fantasies, and my most intimate thoughts are yours alone. Tonight, I want you to feel how much I crave you — every touch, every kiss, every whispered word meant only for you.
+
+You are my world, my obsession, my sweetest temptation. This is just the beginning of a year we’ll never forget. Let’s burn together, lose ourselves, and come back stronger, bound by the heat only we share.
+
+All my love, and all my fire,
+Yours forever. 🔥🔥🔥`;
+
+    vaultButton.disabled = true;
+    vaultButton.textContent = "Vault Opened 🔓";
+    countdown.style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
